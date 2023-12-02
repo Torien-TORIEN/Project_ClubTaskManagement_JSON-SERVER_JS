@@ -1,0 +1,85 @@
+{
+  "users": [
+    {
+      "id": "admin@enicar.tn",
+      "username": "TORIEN",
+      "email": "admin@enicar.tn",
+      "role": "Admin",
+      "password": "123"
+    },
+    {
+      "id": "houssem301@gmail.com",
+      "username": "Houssem",
+      "email": "houssem301@gmail.com",
+      "role": "Membre",
+      "password": 123
+    },
+    {
+      "id": "member@enicar.tn",
+      "username": "Member",
+      "email": "member@enicar.tn",
+      "role": "Membre",
+      "password": "123"
+    }
+  ],
+  "events": [
+    {
+      "id": "forum",
+      "title": "Forum de l'Enicarthage",
+      "description": "Forum d'Enicarthage 2022/2023"
+    },
+    {
+      "id": "formation",
+      "title": "Formation en C/C++",
+      "description": "Cette formation a pour but d'améliorer nos compétences"
+    },
+    {
+      "id": "forumdestagespolytech",
+      "title": "Forum de stages Polytech",
+      "description": "Cet évenement a pour but de rencontrer les entreprises"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task1",
+      "taskname": "Task 1",
+      "status": "vièrge",
+      "duration": "24",
+      "id_event": "forum",
+      "description": "organisation des participants  de forum d'ENICAR"
+    },
+    {
+      "id": "task2",
+      "taskname": "Task 2",
+      "status": "vièrge",
+      "duration": 48,
+      "id_event": "forum",
+      "description": "description de taches n°2 "
+    },
+    {
+      "id": "task3",
+      "taskname": "Task 3",
+      "duration": "24",
+      "status": "en cours",
+      "id_event": "forum",
+      "description": "task 3 description"
+    },
+    {
+      "id": "task4",
+      "taskname": "Task 4",
+      "duration": "48",
+      "status": "vièrge",
+      "id_event": "formation",
+      "description": "description de task 4"
+    },
+    {
+      "id": "task20",
+      "taskname": "Task 20",
+      "duration": "48",
+      "status": "finie",
+      "id_event": "forum",
+      "description": "description of task 20"
+    }
+  ],
+  "tasks_att": []
+}

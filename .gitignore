@@ -1,0 +1,40 @@
+# Node.js
+node_modules/
+
+# User-specific files
+npm-debug.log
+*.suo
+*.user
+*.bak
+*.vscode
+*.vscode-test
+.vscode-test/
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+/jspm_packages/
+/bower_components/
+/public/bower_components/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code directories
+.vscode/
+
+# Sensitive or high-churn files
+lock.json
+
+# IDE files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

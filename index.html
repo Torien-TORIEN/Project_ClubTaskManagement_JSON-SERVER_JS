@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des taches </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+    
+
+</head>
+<body>
+    <nav class ="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style="background-color: rgb(150, 206, 203);width: 100%;">
+        <div class="dropdown " style="margin-left: 85%;background-color:rgb(150, 206, 203)">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="./img/user.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1" id="current_user_name"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="background-color:rgb(150, 206, 203);">
+                <li><a class="dropdown-item"  href="./template/signUp.html" id="add_member" style="color:white ;">Ajouter Membre</a></li>
+                <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#user_modal">Modifier profil</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#" onclick="logOut()">Se déconnecter</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="padding-block-start: 30px;">
+        <div class="row flex-nowrap">
+            
+            <!-- Sidebar -->
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Menu</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link align-middle px-0">
+                                <i class="bi bi-house"></i> <span class="ms-1 d-none d-sm-inline" onclick="gestionEvenement()" id="gestion_event">Gestion des Evenements</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline" onclick="gestionTache()" id="gestion_task">Gestion des taches</span> </a>
+                        </li>
+                        <li id="taches_attribuées">
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline" onclick="voirTachesAttribués()" >Voir taches attribuées</span> </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    
+                </div>
+            </div>
+
+            <!-- content -->
+            <div class="col py-3" style="background-color: rgb(237, 248, 227);padding-bottom: 2000px;">
+                
+                
+                <!--  ----------gestion des evenements------------------------------ -->
+                <div id="show_event">
+                  <div class="container" style="text-align:center;background-color:aquamarine;border-style:double;border-radius:5px;margin-top: 20px;margin-bottom: 10px;">
+                    <h3  class="text-center" id="title_gestion_event">Gestion des Evenements</h3>
+                  </div>
+                    <button type="button" id="ajout_btn" class="btn btn-primary" data-toggle="modal" data-target="#event_modal"  onclick="resetModal()">Ajouter un évenement </button>
+                    <table class="table table-bordered table-hover">
+                      <thead id="th_action_event">
+                        <th>N°</th>
+                        <th>Title</th>
+                        <th>description</th>
+                        <th id="action_event">Action</th>
+                      </thead>
+                        <tbody id="tbody_event">
+                            <!-- donnees ici -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Modal de l'evenement  -->
+                <div class="container">
+                    <div class="modal" id="event_modal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title">Ajouter un évenement</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          
+                          <!-- Modal body -->
+                          <div class="modal-body" >
+                            <form>
+                                <div class="form-group" id="title_event_form">
+                                  <label for="title">Titre</label>
+                                  <input type="text" class="form-control" id="title" name="title_event_form" >
+                                </div>
+                               
+                                <div class="form-group">
+                                  <label for="des">description</label>
+                                  <textarea class="form-control" id="des" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <i><h6 id="errorEvent" class="alert-danger" style="text-align:center"></h6></i>
+                                </div>
+                            </form>
+                          </div>
+                          
+                          <!-- Modal footer -->
+                          <div class="modal-footer" id="footer_event_modal">
+                            <button class="btn btn-primary" onclick="addEvent()">Ajouter</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                          
+                        </div>
+                      </div> 
+                    </div>
+                </div>
+                <!-- modal de l'evenement /-->
+
+
+                <!-- ---------------gestion des taches ------------------------ -->
+                <div id="show_task">
+                  <div class="container" style="text-align:center;background-color:aquamarine;border-style:double;border-radius:5px;margin-top: 15px;margin-bottom: 10px;">
+                    <h3  class="text-center" id="title_gestion_task">Gestion des Taches </h3>
+                  </div>
+                    <button type="button" id="ajout_btn_task" class="btn btn-primary" onclick="loadEventSelect()" data-toggle="modal" data-target="#task_modal"  onclick="">Ajouter une tache </button>
+                    <table class="table table-bordered table-hover">
+                        <th>Titre</th>
+                        <th>Etat</th>
+                        <th>Durée</th>
+                        <th>Evènement</th>
+                        <th id="action_task">Action</th>
+                        <tbody id="tbody_task">
+                            <!-- <tr>
+                                <td>Task1</td>
+                                <td>En cours</td>
+                                <td>24</td>
+                                <td>Forum</td>
+                                <td>
+                                    <a href="">show</a>
+                                    <button class="btn btn-info">Modifier</button>
+                                    <button class="btn btn-danger">Supprimer</button>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Modal de la tache  -->
+                <div class="container">
+                    <div class="modal" id="task_modal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title" >Ajouter une tache </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          
+                          <!-- Modal body -->
+                          <div class="modal-body" >
+                            <form>
+                                <!-- titre -->
+                                <div class="form-group" id="title_event_form">
+                                  <label for="taskname">Titre</label>
+                                  <input type="text" class="form-control" id="taskname"  >
+                                </div>
+                                <!-- durée et ETAT -->
+                                <div class="row">
+
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="duration">Durée estimée<em></em></label>
+                                            <input type="number" id="duration" class="form-control form-control-lg" />
+                                        </div>
+                                    </div>
+                
+                                    <div class="col-md-6 mb-4">
+                    
+                                        <h6 class="mb-2 pb-1">Etat: </h6>
+                                        <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status" id="notouched"
+                                            value="vièrge" checked />
+                                        <label class="form-check-label" for="notouched">Vièrge</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status" id="running"
+                                            value="en cours"  />
+                                        <label class="form-check-label" for="running">En cours</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status" id="done"
+                                            value="finie" />
+                                        <label class="form-check-label" for="done">Finie</label>
+                                        </div>
+                    
+                                    </div>
+
+                                </div>
+
+                                <!-- evenement -->
+                                <div class="form-group">
+                                    <label for="id_event_select">Evènement</label>
+                                    <select class="form-control" name="evenement" id="id_event_select">
+                                        <!-- <option value="ev1">evenement1</option>
+                                        <option value="ev2">evenement1</option> -->
+                                    </select>
+                                </div>
+
+                               <!-- description -->
+                                <div class="form-group">
+                                  <label for="desTask">description</label>
+                                  <textarea class="form-control" id="desTask" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <i><h6 id="errorTask" class="alert-danger" style="text-align:center"></h6></i>
+                                </div>
+                            </form>
+                          </div>
+                          
+                          <!-- Modal footer -->
+                          <div class="modal-footer" id="footer_event_modal">
+                            <button class="btn btn-primary" onclick="createTask()">Ajouter</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                          
+                        </div>
+                      </div> 
+                    </div>
+                </div>
+                <!-- modal de la tache  /-->
+
+                <!-- Afficher une tache une à une -->
+                <div class="container" id="task_one_show">
+                    <!-- <h3 class="text-center">Task 1</h3>
+                    <hr style="background-color: red;">
+                    <label for=""><u>Evènement </u> : Formation C++</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <label for=""><u>Durée</u> : 24 heures</label>
+                    <hr style="background-color: red;">
+                    <div class="progress-bar" style="height: 30px;width:100%" ><p><strong>status</strong> :<i style="background-color :green;">en cours</i> </p></div>
+                    </div>
+                    <div class="md-form mb-4 pink-textarea active-pink-textarea-2">
+                        <i class="fas fa-angle-double-right prefix"></i>
+                        <textarea id="form23" class="md-textarea form-control" rows="3" readonly></textarea>
+                    </div>
+                    <button class="btn btn-info">Commencer</button>
+                    <button class="btn btn-success">Finir</button>
+                    <button class="btn btn-primary">  Attribuer  </button> -->
+                </div>
+                 
+                <!-- Modal for task update -->
+                <div class="container">
+                    <!-- <button type="button" class="btn btn-primary" onclick="loadEventSelectUpdate()" data-toggle="modal" data-target="#task_modal_update">Modifier tache </button>
+                     -->
+                    <div class="modal" id="task_modal_update">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title" >Modifier une tache </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          
+                          <!-- Modal body -->
+                          <div class="modal-body" >
+                            <form>
+                                <!-- titre -->
+                                <div class="form-group">
+                                  <label for="taskname">Titre</label>
+                                  <input type="text" class="form-control" id="taskname_update"  >
+                                </div>
+                                <!-- durée  -->
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="duration">Durée estimée<em></em></label>
+                                    <input type="number" id="duration_update" class="form-control form-control-lg" />
+                                </div>
+                
+                                    
+                                <!-- evenement -->
+                                <div class="form-group">
+                                    <label for="id_event_select">Evènement</label>
+                                    <select class="form-control" name="evenement" id="id_event_select_update">
+                                        <!-- <option value="ev1">evenement1</option>
+                                        <option value="ev2">evenement1</option> -->
+                                    </select>
+                                </div>
+
+                               <!-- description -->
+                                <div class="form-group">
+                                  <label for="desTask">description</label>
+                                  <textarea class="form-control" id="desTask_update" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <i><h6 id="errorTaskUpdate" class="alert-danger" style="text-align:center"></h6></i>
+                                </div>
+                            </form>
+                          </div>
+                          
+                          <!-- Modal footer -->
+                          <div class="modal-footer" id="footer_event_modal_update">
+                            <button class="btn btn-primary" onclick="alert('update task')">Enregistrer</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                          
+                        </div>
+                      </div> 
+                    </div>
+                </div>
+                <!-- Modal for task update /-->
+
+
+
+                <!-- Modal Attribuer tache -->
+                <div class="container">
+                    <!-- <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#attribuer_modal">Modifier tache </button>
+                     -->
+                    <div class="modal" id="attribuer_modal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+
+                          <!-- Modal Header -->
+                          <div class="modal-header">
+                            <h4 class="modal-title" >Attribuer une tache </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          
+                          <!-- Modal body -->
+                          <div class="modal-body" >
+                            <form>
+                                <!-- titre -->
+                                <div class="form-group">
+                                  <label for="taskname">Titre</label>
+                                  <input type="text" class="form-control" id="taskname_att"  readonly>
+                                </div>
+                                <!-- membre -->
+                                <div class="form-group">
+                                    <label for="id_event_select">Membres</label>
+                                    <select class="form-control" name="evenement" id="membres">
+                                        <!-- <option value="ev1">evenement1</option>
+                                        <option value="ev2">evenement1</option> -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <i><h6 id="errorAtt" class="alert-danger" style="text-align:center"></h6></i>
+                                </div>
+                            </form>
+                          </div>
+                          
+                          <!-- Modal footer -->
+                          <div class="modal-footer" id="footer_att">
+                            <button class="btn btn-primary" onclick="alert('update task')">Confirmer</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                          </div>
+                          
+                        </div>
+                      </div> 
+                    </div>
+                </div>
+                <!-- Modal Attribuer tache /-->
+
+<!--------------------------------- Taches attribuées ------------------------------------------>
+                <div id="show_task_att">
+                  <div class="container" style="text-align:center;background-color:aquamarine;border-style:double;border-radius:5px;margin-top: 20px;margin-bottom: 10px;">
+                    <h3  class="text-center">Taches attribuées aux membres</h3>
+                  </div>
+                    <table class="table table-bordered table-hover" >
+                        <th>Taches </th>
+                        <th>Membres</th>
+                        <th>Etat</th>
+                        <th id="action_task_att">Action</th>
+                        <tbody id="tbody_att">
+                            <!-- donnees ici -->
+                        </tbody>
+                    </table>
+                </div>
+
+<!-- ------- -------------  Modifier son profil---------------------------------------------- -->
+                <div class="container">
+                  <div class="modal" id="user_modal">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                          <h4 class="modal-title">Modifier le profil</h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        
+                        <!-- Modal body -->
+                        <div class="modal-body" >
+                          <form>
+                              <div class="form-group" id="title_event_form">
+                                <label for="title">Votre nom</label>
+                                <input type="text" class="form-control" id="username_up" name="title_event_form" >
+                              </div>
+                              
+                              <div class="form-group" >
+                                <label for="email_up">Email</label>
+                                <input type="email" class="form-control" id="email_up" name="title_event_form" readonly >
+                              </div>
+
+                              <div class="form-group" >
+                                <label for="email_up">Acien Mot de passe</label>
+                                <input type="pwd_up" class="form-control" id="Apwd_up" name="title_event_form" >
+                              </div>
+
+                              <div class="form-group" >
+                                <label for="email_up">Nouveau Mot de pass</label>
+                                <input type="pwd_up" class="form-control" id="Npwd_up" name="title_event_form" >
+                              </div>
+
+                              <div class="form-group">
+                                  <i><h6 id="errorUser" class="alert-danger" style="text-align:center"></h6></i>
+                              </div>
+                          </form>
+                        </div>
+                        
+                        <!-- Modal footer -->
+                        <div class="modal-footer" id="footer_user_modal">
+                          <button class="btn btn-primary" onclick="UpdateProfile()">Enregistrer</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                        
+                      </div>
+                    </div> 
+                  </div>
+                </div>
+                
+                
+                <footer> <small>&copy; Projet Web ENICAR 2022/2023 Torien & Houssem</small> </footer>
+                
+            </div>
+            <!-- content /-->
+
+
+        </div>
+    </div>
+    
+    
+    
+    <script src="./index.js"></script> 
+
+     
+</body>
+<script>
+    //Login is needed
+    document.addEventListener("DOMContentLoaded", () => {
+      restrict();
+      let current_user=JSON.parse(localStorage.getItem("current_user")).username
+      document.getElementById("current_user_name").innerHTML=current_user
+    });
+  </script>
+</html>
